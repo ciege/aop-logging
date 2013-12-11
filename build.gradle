@@ -1,0 +1,29 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+
+
+version = '0.0.1'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'aop-logging', 'Implementation-Version': version
+	}
+}
+
+repositories { mavenCentral() }
+
+dependencies {
+	compile 'org.springframework:spring-context:3.2.5.RELEASE'
+	compile 'org.springframework:spring-aop:3.2.5.RELEASE'
+	compile 'org.aspectj:aspectjrt:1.7.4'
+	compile 'org.aspectj:aspectjweaver:1.7.4'
+	compile 'ch.qos.logback:logback-classic:1.0.13'
+	testCompile 'junit:junit:4.+'
+	testCompile 'org.springframework:spring-test:3.2.5.RELEASE'
+	runtime 'org.codehaus.groovy:groovy-all:2.1.9'
+}
