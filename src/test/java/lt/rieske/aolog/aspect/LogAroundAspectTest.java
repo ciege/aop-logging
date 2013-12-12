@@ -1,4 +1,7 @@
-package lt.rieske.aolog.perflog;
+package lt.rieske.aolog.aspect;
+
+import lt.rieske.aolog.aspect.LogAround;
+import lt.rieske.aolog.aspect.LogAroundAspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Test;
@@ -9,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PerformanceLogAspectTest {
+public class LogAroundAspectTest {
 
 	@Mock
 	private Logger logger;
@@ -18,13 +21,13 @@ public class PerformanceLogAspectTest {
 	private ProceedingJoinPoint joinPoint;
 
 	@Mock
-	private PerformanceLog performanceLog;
+	private LogAround logAroundMarker;
 
 	@InjectMocks
-	private PerformanceLogAspect perfLogAspect;
+	private LogAroundAspect logAroundAspect;
 
 	@Test
 	public void shouldInvokeLoggerBeforeAndAfterMethodExecution() throws Throwable {
-		perfLogAspect.performanceLog(joinPoint, performanceLog);
+		logAroundAspect.logAround(joinPoint, logAroundMarker);
 	}
 }

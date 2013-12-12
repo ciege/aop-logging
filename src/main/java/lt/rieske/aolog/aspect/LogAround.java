@@ -1,4 +1,4 @@
-package lt.rieske.aolog.perflog;
+package lt.rieske.aolog.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface PerformanceLog {
+public @interface LogAround {
 }
