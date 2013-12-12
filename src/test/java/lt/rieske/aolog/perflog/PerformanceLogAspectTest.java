@@ -1,36 +1,30 @@
 package lt.rieske.aolog.perflog;
 
-import lt.rieske.aolog.stubs.ServiceFacadeStub;
-
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.slf4j.Logger;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PerformanceLogAspectTest {
 
-	private ServiceFacadeStub targetFacade;
+	@Mock
+	private Logger logger;
 
 	@Mock
+	private ProceedingJoinPoint joinPoint;
+
+	@Mock
+	private PerformanceLog performanceLog;
+
+	@InjectMocks
 	private PerformanceLogAspect perfLogAspect;
 
-	@Before
-	public void setUp() {
-		AspectJProxyFactory factory = new AspectJProxyFactory(new ServiceFacadeStub());
-		factory.addAspect(perfLogAspect);
-		targetFacade = factory.getProxy();
-	}
-
 	@Test
-	public void shouldInvokePerformanceLogAspect() throws Throwable {
-		targetFacade.methodReturningVoid();
-
-		Mockito.verify(perfLogAspect).performanceLog(Mockito.any(ProceedingJoinPoint.class), Mockito.any(PerformanceLog.class));
-		Mockito.verifyNoMoreInteractions(perfLogAspect);
+	public void shouldInvokeLoggerBeforeAndAfterMethodExecution() throws Throwable {
+		perfLogAspect.performanceLog(joinPoint, performanceLog);
 	}
 }

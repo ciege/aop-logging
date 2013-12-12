@@ -18,6 +18,7 @@ jar {
 repositories { mavenCentral() }
 
 dependencies {
+	compile 'javax.inject:javax.inject:1'
 	compile 'org.springframework:spring-context:3.2.5.RELEASE'
 	compile 'org.springframework:spring-aop:3.2.5.RELEASE'
 	compile 'org.aspectj:aspectjrt:1.7.4'
