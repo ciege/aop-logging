@@ -1,33 +1,84 @@
 package lt.rieske.aolog.aspect;
 
-import lt.rieske.aolog.aspect.LogAround;
-import lt.rieske.aolog.aspect.LogAroundAspect;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+import lt.rieske.aolog.logger.AroundMethodLogger;
+import lt.rieske.aolog.logger.AspectLoggerFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LogAroundAspectTest {
 
 	@Mock
-	private Logger logger;
+	private AspectLoggerFactory loggerFactory;
 
 	@Mock
 	private ProceedingJoinPoint joinPoint;
 
 	@Mock
-	private LogAround logAroundMarker;
+	private LogAround configuration;
+
+	@Mock
+	private AroundMethodLogger logger;
 
 	@InjectMocks
 	private LogAroundAspect logAroundAspect;
 
 	@Test
 	public void shouldInvokeLoggerBeforeAndAfterMethodExecution() throws Throwable {
-		logAroundAspect.logAround(joinPoint, logAroundMarker);
+		when(loggerFactory.getAroundMethodLogger(joinPoint, configuration)).thenReturn(logger);
+		when(joinPoint.getSignature()).thenReturn(Mockito.mock(Signature.class));
+
+		logAroundAspect.logAround(joinPoint, configuration);
+
+		verify(loggerFactory).getAroundMethodLogger(same(joinPoint), same(configuration));
+		verify(logger).logBefore();
+		verify(logger).logAfter(null);
+		verifyNoMoreInteractions(loggerFactory, logger);
+	}
+
+	@Test
+	public void shouldInvokeLoggerBeforeAndAfterMethodExecutionForVoidMethod() throws Throwable {
+		when(loggerFactory.getAroundMethodLogger(joinPoint, configuration)).thenReturn(logger);
+		Signature methodSignatureMock = Mockito.mock(Signature.class);
+		when(methodSignatureMock.toString()).thenReturn("void aaa()");
+		when(joinPoint.getSignature()).thenReturn(methodSignatureMock);
+
+		logAroundAspect.logAround(joinPoint, configuration);
+
+		verify(loggerFactory).getAroundMethodLogger(same(joinPoint), same(configuration));
+		verify(logger).logBefore();
+		verify(logger).logAfter();
+		verifyNoMoreInteractions(loggerFactory, logger);
+	}
+
+	@Test
+	public void shouldLogExceptionWhenExceptionIsThrown() throws Throwable {
+		when(loggerFactory.getAroundMethodLogger(joinPoint, configuration)).thenReturn(logger);
+		Throwable runtimeException = new RuntimeException();
+		when(joinPoint.proceed()).thenThrow(runtimeException);
+
+		try {
+			logAroundAspect.logAround(joinPoint, configuration);
+			fail("Exception expected to be rethrown");
+		} catch (Throwable t) {
+			assertTrue(t == runtimeException);
+			verify(loggerFactory).getAroundMethodLogger(same(joinPoint), same(configuration));
+			verify(logger).logBefore();
+			verify(logger).logException(same(t));
+			verifyNoMoreInteractions(loggerFactory, logger);
+		}
 	}
 }

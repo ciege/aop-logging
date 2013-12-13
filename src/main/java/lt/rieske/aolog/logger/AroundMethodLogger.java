@@ -6,5 +6,7 @@ public interface AroundMethodLogger {
 
 	void logAfter();
 
-	void logException();
+	void logAfter(String returnValueString);
+
+	void logException(Throwable t);
 }

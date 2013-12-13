@@ -1,40 +1,44 @@
 package lt.rieske.aolog.aspect;
 
-import java.util.Arrays;
-
 import javax.inject.Inject;
+
+import lt.rieske.aolog.logger.AroundMethodLogger;
+import lt.rieske.aolog.logger.AspectLoggerFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
 public class LogAroundAspect {
 
-	private final Logger logger;
+	private final AspectLoggerFactory loggerFactory;
+
+	private static final String VOID_RETURN = "void ";
 
 	@Inject
-	public LogAroundAspect(final Logger logger) {
-		this.logger = logger;
+	public LogAroundAspect(final AspectLoggerFactory loggerFactory) {
+		this.loggerFactory = loggerFactory;
 	}
 
-	@Around("execution(* *(..)) && @annotation(performanceLog)")
-	public void logAround(ProceedingJoinPoint joinPoint, LogAround logAroundMarker) throws Throwable {
+	@Around("execution(* *(..)) && @annotation(configuration)")
+	public void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
+		AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(joinPoint, configuration);
 
-		logger.debug("hijacked method: " + joinPoint.getSignature());
-		logger.debug("hijacked arguments: " + Arrays.toString(joinPoint.getArgs()));
-
-		logger.debug("Around before is running!");
+		logger.logBefore();
 		try {
-			joinPoint.proceed();
+			Object returnValue = joinPoint.proceed();
+			if (joinPoint.getSignature().toString().startsWith(VOID_RETURN)) {
+				logger.logAfter();
+			} else {
+				logger.logAfter(returnValue == null ? null : returnValue.toString());
+			}
 		} catch (Throwable t) {
-			logger.debug("threw up");
+			logger.logException(t);
 			throw t;
 		}
-		logger.debug("Around after is running!");
 	}
 
 }

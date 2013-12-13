@@ -11,4 +11,10 @@ public class ServiceFacadeStub {
 	public void methodReturningVoid() {
 		System.out.println("method returning void");
 	}
+
+	@LogAround
+	public String methodReturningString(String value) {
+		System.out.println("method returning: " + value);
+		return value;
+	}
 }
