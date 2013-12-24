@@ -1,5 +1,9 @@
 package lt.rieske.aolog.logger;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 import lt.rieske.aolog.aspect.LogAround;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,14 +12,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BuiltInAspectLoggerFactoryTest {
 
 	@Mock
 	private ProceedingJoinPoint joinPoint;
+
+	@Mock
+	private Object target;
 
 	private LogAround configuration;
 
@@ -28,7 +33,7 @@ public class BuiltInAspectLoggerFactoryTest {
 
 	@Test
 	public void shouldCreateAroundMethodStatLogger() {
-		AroundMethodLogger logger = factory.getAroundMethodLogger(joinPoint, configuration);
+		AroundMethodLogger logger = factory.getAroundMethodLogger(joinPoint, target, configuration);
 
 		assertThat(logger, is(not(nullValue())));
 	}

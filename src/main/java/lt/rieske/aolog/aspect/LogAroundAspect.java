@@ -25,7 +25,7 @@ public class LogAroundAspect {
 
 	@Around("execution(* *(..)) && @annotation(configuration)")
 	public void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
-		AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(joinPoint, configuration);
+		AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(joinPoint, joinPoint.getTarget(), configuration);
 
 		logger.logBefore();
 		try {
