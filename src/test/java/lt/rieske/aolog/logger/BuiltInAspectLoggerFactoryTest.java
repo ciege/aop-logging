@@ -18,25 +18,25 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class BuiltInAspectLoggerFactoryTest {
 
-	@Mock
-	private ProceedingJoinPoint joinPoint;
+    @Mock
+    private ProceedingJoinPoint joinPoint;
 
-	@Mock
-	private Object target;
+    @Mock
+    private Object target;
 
-	private LogAround configuration;
+    private LogAround configuration;
 
-	private AspectLoggerFactory factory;
+    private AspectLoggerFactory factory;
 
-	@Before
-	public void setUp() {
-		factory = new BuiltInAspectLoggerFactory();
-	}
+    @Before
+    public void setUp() {
+        factory = new BuiltInAspectLoggerFactory();
+    }
 
-	@Test
-	public void shouldCreateAroundMethodStatLogger() {
-		AroundMethodLogger logger = factory.getAroundMethodLogger(joinPoint, target, configuration);
+    @Test
+    public void shouldCreateAroundMethodStatLogger() {
+        AroundMethodLogger logger = factory.getAroundMethodLogger(joinPoint, target, configuration);
 
-		assertThat(logger, is(not(nullValue())));
-	}
+        assertThat(logger, is(not(nullValue())));
+    }
 }

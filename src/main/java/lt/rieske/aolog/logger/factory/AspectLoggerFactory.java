@@ -6,5 +6,5 @@ import lt.rieske.aolog.logger.AroundMethodLogger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 public interface AspectLoggerFactory {
-	AroundMethodLogger getAroundMethodLogger(ProceedingJoinPoint joinPoint, Object target, LogAround configuration);
+    AroundMethodLogger getAroundMethodLogger(ProceedingJoinPoint joinPoint, Object target, LogAround configuration);
 }

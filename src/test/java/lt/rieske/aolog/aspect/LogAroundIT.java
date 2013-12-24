@@ -14,13 +14,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = { AspectOrientedLoggingConfiguration.class })
 public class LogAroundIT {
 
-	@Inject
-	private ServiceFacadeStub targetFacade;
+    @Inject
+    private ServiceFacadeStub targetFacade;
 
-	@Test
-	public void shouldInvokeLoggerBeforeAndAfterMethodExecution() throws Throwable {
-		targetFacade.methodReturningVoid();
-		targetFacade.methodReturningString("testValue");
-	}
+    @Test
+    public void shouldInvokeLoggerBeforeAndAfterMethodExecution() throws Throwable {
+        targetFacade.methodReturningVoid();
+        targetFacade.methodReturningString("testValue");
+    }
 
 }

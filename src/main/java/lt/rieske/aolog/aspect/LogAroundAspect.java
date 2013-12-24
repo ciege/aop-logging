@@ -15,31 +15,31 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LogAroundAspect {
 
-	private final AspectLoggerFactory loggerFactory;
+    private final AspectLoggerFactory loggerFactory;
 
-	private static final String VOID_RETURN = "void ";
+    private static final String VOID_RETURN = "void ";
 
-	@Inject
-	public LogAroundAspect(final AspectLoggerFactory loggerFactory) {
-		this.loggerFactory = loggerFactory;
-	}
+    @Inject
+    public LogAroundAspect(final AspectLoggerFactory loggerFactory) {
+        this.loggerFactory = loggerFactory;
+    }
 
-	@Around("execution(* *(..)) && @annotation(configuration)")
-	public void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
-		AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(joinPoint, joinPoint.getTarget(), configuration);
+    @Around("execution(* *(..)) && @annotation(configuration)")
+    public void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
+        AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(joinPoint, joinPoint.getTarget(), configuration);
 
-		logger.logBefore();
-		try {
-			Object returnValue = joinPoint.proceed();
-			if (joinPoint.getSignature().toString().startsWith(VOID_RETURN)) {
-				logger.logAfter();
-			} else {
-				logger.logAfter(returnValue == null ? null : returnValue.toString());
-			}
-		} catch (Exception e) {
-			logger.logException(e);
-			throw e;
-		}
-	}
+        logger.logBefore();
+        try {
+            Object returnValue = joinPoint.proceed();
+            if (joinPoint.getSignature().toString().startsWith(VOID_RETURN)) {
+                logger.logAfter();
+            } else {
+                logger.logAfter(returnValue == null ? null : returnValue.toString());
+            }
+        } catch (Exception e) {
+            logger.logException(e);
+            throw e;
+        }
+    }
 
 }

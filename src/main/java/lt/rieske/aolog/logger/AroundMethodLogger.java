@@ -2,11 +2,11 @@ package lt.rieske.aolog.logger;
 
 public interface AroundMethodLogger {
 
-	void logBefore();
+    void logBefore();
 
-	void logAfter();
+    void logAfter();
 
-	void logAfter(String returnValueString);
+    void logAfter(String returnValueString);
 
-	void logException(Throwable t);
+    void logException(Throwable t);
 }
