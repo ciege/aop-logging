@@ -3,7 +3,7 @@ package lt.rieske.aolog.aspect;
 import javax.inject.Inject;
 
 import lt.rieske.aolog.logger.AroundMethodLogger;
-import lt.rieske.aolog.logger.AspectLoggerFactory;
+import lt.rieske.aolog.logger.factory.AspectLoggerFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -35,9 +35,9 @@ public class LogAroundAspect {
 			} else {
 				logger.logAfter(returnValue == null ? null : returnValue.toString());
 			}
-		} catch (Throwable t) {
-			logger.logException(t);
-			throw t;
+		} catch (Exception e) {
+			logger.logException(e);
+			throw e;
 		}
 	}
 

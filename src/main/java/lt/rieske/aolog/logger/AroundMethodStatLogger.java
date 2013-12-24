@@ -3,7 +3,7 @@ package lt.rieske.aolog.logger;
 import org.aspectj.lang.Signature;
 import org.slf4j.Logger;
 
-class AroundMethodStatLogger implements AroundMethodLogger {
+public class AroundMethodStatLogger implements AroundMethodLogger {
 
 	private final Logger logger;
 	private final Signature signature;

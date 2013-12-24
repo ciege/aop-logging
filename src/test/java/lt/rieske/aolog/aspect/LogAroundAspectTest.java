@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import lt.rieske.aolog.logger.AroundMethodLogger;
-import lt.rieske.aolog.logger.AspectLoggerFactory;
+import lt.rieske.aolog.logger.factory.AspectLoggerFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;

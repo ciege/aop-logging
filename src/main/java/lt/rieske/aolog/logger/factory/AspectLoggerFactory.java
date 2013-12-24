@@ -1,6 +1,7 @@
-package lt.rieske.aolog.logger;
+package lt.rieske.aolog.logger.factory;
 
 import lt.rieske.aolog.aspect.LogAround;
+import lt.rieske.aolog.logger.AroundMethodLogger;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 
