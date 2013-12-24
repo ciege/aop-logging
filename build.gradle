@@ -1,12 +1,7 @@
-buildscript {
-    repositories { mavenCentral() }
-    dependencies { classpath "net.saliman:gradle-cobertura-plugin:2.2.1" }
-}
-
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'sonar-runner'
-apply plugin: 'cobertura'
+apply plugin: "jacoco"
 
 
 
@@ -35,4 +30,13 @@ dependencies {
     testCompile 'org.springframework:spring-test:3.2.5.RELEASE'
     testCompile 'org.mockito:mockito-all:1.9.5'
     runtime 'org.codehaus.groovy:groovy-all:2.1.9'
+}
+
+jacocoTestReport {
+    reports { xml.enabled true }
+}
+
+sonarRunner {
+    sonarProperty "sonar.java.coveragePlugin", "jacoco"
+    sonarProperty "sonar.cobertura.reportPath", file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
 }
