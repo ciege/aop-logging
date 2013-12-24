@@ -1,10 +1,8 @@
-package lt.rieske.aolog.logger.factory;
+package lt.rieske.aolog.logger;
 
 import java.util.Arrays;
 
 import lt.rieske.aolog.annotation.LogAround;
-import lt.rieske.aolog.logger.AroundMethodLogger;
-import lt.rieske.aolog.logger.AroundMethodStatLogger;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.LoggerFactory;

@@ -5,8 +5,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import lt.rieske.aolog.annotation.LogAround;
-import lt.rieske.aolog.logger.factory.AspectLoggerFactory;
-import lt.rieske.aolog.logger.factory.BuiltInAspectLoggerFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Before;

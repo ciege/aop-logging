@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import lt.rieske.aolog.annotation.LogAround;
 import lt.rieske.aolog.logger.AroundMethodLogger;
-import lt.rieske.aolog.logger.factory.AspectLoggerFactory;
+import lt.rieske.aolog.logger.AspectLoggerFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
