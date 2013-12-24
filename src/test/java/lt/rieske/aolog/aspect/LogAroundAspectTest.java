@@ -6,6 +6,7 @@ import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import lt.rieske.aolog.annotation.LogAround;
 import lt.rieske.aolog.logger.AroundMethodLogger;
 import lt.rieske.aolog.logger.factory.AspectLoggerFactory;
 

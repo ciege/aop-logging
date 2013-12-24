@@ -1,6 +1,6 @@
 package lt.rieske.aolog.stubs;
 
-import lt.rieske.aolog.aspect.LogAround;
+import lt.rieske.aolog.annotation.LogAround;
 
 import org.springframework.stereotype.Component;
 

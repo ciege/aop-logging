@@ -2,7 +2,7 @@ package lt.rieske.aolog.logger.factory;
 
 import java.util.Arrays;
 
-import lt.rieske.aolog.aspect.LogAround;
+import lt.rieske.aolog.annotation.LogAround;
 import lt.rieske.aolog.logger.AroundMethodLogger;
 import lt.rieske.aolog.logger.AroundMethodStatLogger;
 

@@ -1,6 +1,6 @@
 package lt.rieske.aolog.aspect;
 
-import lt.rieske.aolog.aspect.LogAround;
+import lt.rieske.aolog.annotation.LogAround;
 import lt.rieske.aolog.aspect.LogAroundAspect;
 import lt.rieske.aolog.stubs.ServiceFacadeStub;
 

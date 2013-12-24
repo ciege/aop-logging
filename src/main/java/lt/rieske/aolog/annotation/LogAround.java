@@ -1,4 +1,4 @@
-package lt.rieske.aolog.aspect;
+package lt.rieske.aolog.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
