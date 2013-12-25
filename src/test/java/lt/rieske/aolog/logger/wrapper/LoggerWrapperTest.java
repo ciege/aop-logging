@@ -23,9 +23,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogTraceMessage() {
-        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.TRACE);
+        wrapper = LoggerWrapper.getLoggerWrapper(LogLevel.TRACE);
 
-        wrapper.log(FORMAT, ARGUMENTS);
+        wrapper.log(logger, FORMAT, ARGUMENTS);
 
         verify(logger).trace(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -33,9 +33,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogDebugMessage() {
-        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.DEBUG);
+        wrapper = LoggerWrapper.getLoggerWrapper(LogLevel.DEBUG);
 
-        wrapper.log(FORMAT, ARGUMENTS);
+        wrapper.log(logger, FORMAT, ARGUMENTS);
 
         verify(logger).debug(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -43,9 +43,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogInfoMessage() {
-        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.INFO);
+        wrapper = LoggerWrapper.getLoggerWrapper(LogLevel.INFO);
 
-        wrapper.log(FORMAT, ARGUMENTS);
+        wrapper.log(logger, FORMAT, ARGUMENTS);
 
         verify(logger).info(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -53,9 +53,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogWarnMessage() {
-        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.WARN);
+        wrapper = LoggerWrapper.getLoggerWrapper(LogLevel.WARN);
 
-        wrapper.log(FORMAT, ARGUMENTS);
+        wrapper.log(logger, FORMAT, ARGUMENTS);
 
         verify(logger).warn(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -63,9 +63,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogErrorMessage() {
-        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.ERROR);
+        wrapper = LoggerWrapper.getLoggerWrapper(LogLevel.ERROR);
 
-        wrapper.log(FORMAT, ARGUMENTS);
+        wrapper.log(logger, FORMAT, ARGUMENTS);
 
         verify(logger).error(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);

@@ -15,12 +15,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AroundMethodStatLoggerTest {
 
     @Mock
-    private LoggerWrapper logger;
+    private LoggerWrapper loggerWrapper;
+    @Mock
+    private Logger logger;
     @Mock
     private Signature signature;
 
@@ -28,15 +31,15 @@ public class AroundMethodStatLoggerTest {
 
     @Before
     public void setUp() {
-        statLogger = new AroundMethodStatLogger(logger, signature);
+        statLogger = new AroundMethodStatLogger(loggerWrapper, logger, signature);
     }
 
     @Test
     public void shouldLogBeforeMethodMessage() {
         statLogger.logBefore();
 
-        verify(logger).log(anyString(), same(signature));
-        verifyNoMoreInteractions(logger, signature);
+        verify(loggerWrapper).log(same(logger), anyString(), same(signature));
+        verifyNoMoreInteractions(loggerWrapper, signature);
     }
 
     @Test
@@ -45,16 +48,16 @@ public class AroundMethodStatLoggerTest {
 
         statLogger.logBefore(arguments);
 
-        verify(logger).log(anyString(), same(signature), eq(arguments));
-        verifyNoMoreInteractions(logger, signature);
+        verify(loggerWrapper).log(same(logger), anyString(), same(signature), eq(arguments));
+        verifyNoMoreInteractions(loggerWrapper, signature);
     }
 
     @Test
     public void shouldLogAfterMethodWithVoidReturnMessage() {
         statLogger.logAfter();
 
-        verify(logger).log(anyString(), same(signature));
-        verifyNoMoreInteractions(logger, signature);
+        verify(loggerWrapper).log(same(logger), anyString(), same(signature));
+        verifyNoMoreInteractions(loggerWrapper, signature);
     }
 
     @Test
@@ -62,8 +65,8 @@ public class AroundMethodStatLoggerTest {
         final String returnedValue = "anyValue";
         statLogger.logAfter(returnedValue);
 
-        verify(logger).log(anyString(), same(signature), eq(returnedValue));
-        verifyNoMoreInteractions(logger, signature);
+        verify(loggerWrapper).log(same(logger), anyString(), same(signature), eq(returnedValue));
+        verifyNoMoreInteractions(loggerWrapper, signature);
     }
 
     @Test
@@ -73,7 +76,7 @@ public class AroundMethodStatLoggerTest {
         when(exception.getMessage()).thenReturn(exceptionMessage);
         statLogger.logException(exception);
 
-        verify(logger).log(anyString(), same(signature), eq(exceptionMessage));
-        verifyNoMoreInteractions(logger, signature);
+        verify(loggerWrapper).log(same(logger), anyString(), same(signature), eq(exceptionMessage));
+        verifyNoMoreInteractions(loggerWrapper, signature);
     }
 }

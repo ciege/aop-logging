@@ -26,10 +26,9 @@ public class BuiltInAspectLoggerFactory implements AspectLoggerFactory {
 
         AroundMethodLogger aroundMethodLogger = aroundMethodLoggers.get(loggerKey);
         if (aroundMethodLogger == null) {
+            LoggerWrapper loggerWrapper = LoggerWrapper.getLoggerWrapper(configuration.logLevel());
             Logger logger = LoggerFactory.getLogger(target.toString());
-            LoggerWrapper loggerWrapper = LoggerWrapper.createLoggerWrapper(logger, configuration.logLevel());
-
-            aroundMethodLogger = new AroundMethodStatLogger(loggerWrapper, methodSignature);
+            aroundMethodLogger = new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
             aroundMethodLoggers.put(loggerKey, aroundMethodLogger);
         }
         return aroundMethodLogger;

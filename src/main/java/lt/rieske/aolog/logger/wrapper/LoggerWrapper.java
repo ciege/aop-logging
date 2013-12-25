@@ -9,8 +9,6 @@ public abstract class LoggerWrapper {
 
     private static Map<LogLevel, LoggerWrapper> loggerWrappers = new HashMap<>();
 
-    protected Logger logger;
-
     static {
         loggerWrappers.put(LogLevel.TRACE, new TraceLoggerWrapper());
         loggerWrappers.put(LogLevel.DEBUG, new DebugLoggerWrapper());
@@ -19,14 +17,9 @@ public abstract class LoggerWrapper {
         loggerWrappers.put(LogLevel.ERROR, new ErrorLoggerWrapper());
     }
 
-    public static LoggerWrapper createLoggerWrapper(Logger logger, LogLevel logLevel) {
-        return loggerWrappers.get(logLevel).withLogger(logger);
+    public static LoggerWrapper getLoggerWrapper(LogLevel logLevel) {
+        return loggerWrappers.get(logLevel);
     }
 
-    public abstract void log(String format, Object... arguments);
-
-    private LoggerWrapper withLogger(Logger logger) {
-        this.logger = logger;
-        return this;
-    }
+    public abstract void log(Logger logger, String format, Object... arguments);
 }
