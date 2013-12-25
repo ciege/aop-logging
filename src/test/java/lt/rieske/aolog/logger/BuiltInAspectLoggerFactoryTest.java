@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import lt.rieske.aolog.annotation.LogAround;
 import lt.rieske.aolog.logger.wrapper.LogLevel;
 
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class BuiltInAspectLoggerFactoryTest {
 
     @Mock
-    private ProceedingJoinPoint joinPoint;
+    private Signature methodSignature;
 
     @Mock
     private Object target;
@@ -37,7 +37,7 @@ public class BuiltInAspectLoggerFactoryTest {
     @Test
     public void shouldCreateAroundMethodStatLogger() {
         when(configuration.logLevel()).thenReturn(LogLevel.DEBUG);
-        AroundMethodLogger logger = factory.getAroundMethodLogger(joinPoint, target, configuration);
+        AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
         assertThat(logger, is(not(nullValue())));
     }

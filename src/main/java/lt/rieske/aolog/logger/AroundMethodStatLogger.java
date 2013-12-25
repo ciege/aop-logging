@@ -8,16 +8,14 @@ class AroundMethodStatLogger implements AroundMethodLogger {
 
     private final LoggerWrapper logger;
     private final Signature signature;
-    private final String arguments;
 
-    public AroundMethodStatLogger(LoggerWrapper logger, Signature signature, String arguments) {
+    public AroundMethodStatLogger(LoggerWrapper logger, Signature signature) {
         this.logger = logger;
         this.signature = signature;
-        this.arguments = arguments;
     }
 
     @Override
-    public void logBefore() {
+    public void logBefore(String arguments) {
         logger.log("Entering {} with arguments: {}", signature, arguments);
     }
 

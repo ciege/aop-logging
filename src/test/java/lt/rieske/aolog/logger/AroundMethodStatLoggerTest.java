@@ -24,20 +24,20 @@ public class AroundMethodStatLoggerTest {
     @Mock
     private Signature signature;
 
-    private final String ARGUMENTS = "anyArguments";
-
     private AroundMethodStatLogger statLogger;
 
     @Before
     public void setUp() {
-        statLogger = new AroundMethodStatLogger(logger, signature, ARGUMENTS);
+        statLogger = new AroundMethodStatLogger(logger, signature);
     }
 
     @Test
     public void shouldLogBeforeMethodMessage() {
-        statLogger.logBefore();
+        final String arguments = "anyArguments";
 
-        verify(logger).log(anyString(), same(signature), eq(ARGUMENTS));
+        statLogger.logBefore(arguments);
+
+        verify(logger).log(anyString(), same(signature), eq(arguments));
         verifyNoMoreInteractions(logger, signature);
     }
 

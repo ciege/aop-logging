@@ -2,7 +2,7 @@ package lt.rieske.aolog.logger;
 
 public interface AroundMethodLogger {
 
-    void logBefore();
+    void logBefore(String arguments);
 
     void logAfter();
 

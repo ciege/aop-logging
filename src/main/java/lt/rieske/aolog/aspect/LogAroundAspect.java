@@ -1,5 +1,7 @@
 package lt.rieske.aolog.aspect;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 import lt.rieske.aolog.annotation.LogAround;
@@ -7,6 +9,7 @@ import lt.rieske.aolog.logger.AroundMethodLogger;
 import lt.rieske.aolog.logger.AspectLoggerFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
@@ -26,12 +29,13 @@ public class LogAroundAspect {
 
     @Around("execution(* *(..)) && @annotation(configuration)")
     public void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
-        AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(joinPoint, joinPoint.getTarget(), configuration);
+        Signature methodSignature = joinPoint.getSignature();
+        AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(methodSignature, joinPoint.getTarget(), configuration);
 
-        logger.logBefore();
+        logger.logBefore(Arrays.toString(joinPoint.getArgs()));
         try {
             Object returnValue = joinPoint.proceed();
-            if (joinPoint.getSignature().toString().startsWith(VOID_RETURN)) {
+            if (methodSignature.toString().startsWith(VOID_RETURN)) {
                 logger.logAfter();
             } else {
                 logger.logAfter(returnValue == null ? null : returnValue.toString());
@@ -41,5 +45,4 @@ public class LogAroundAspect {
             throw e;
         }
     }
-
 }
