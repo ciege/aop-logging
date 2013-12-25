@@ -16,15 +16,21 @@ public class BuiltInAspectLoggerFactory implements AspectLoggerFactory {
 
     private Map<String, AroundMethodLogger> aroundMethodLoggers = new HashMap<>();
 
+    private String getLoggerKey(Signature signature, Object target) {
+        return signature.toString() + target.toString();
+    }
+
     @Override
     public AroundMethodLogger getAroundMethodLogger(Signature methodSignature, Object target, LogAround configuration) {
-        AroundMethodLogger aroundMethodLogger = aroundMethodLoggers.get(methodSignature.toString());
+        String loggerKey = getLoggerKey(methodSignature, target);
+
+        AroundMethodLogger aroundMethodLogger = aroundMethodLoggers.get(loggerKey);
         if (aroundMethodLogger == null) {
             Logger logger = LoggerFactory.getLogger(target.toString());
             LoggerWrapper loggerWrapper = LoggerWrapper.createLoggerWrapper(logger, configuration.logLevel());
 
             aroundMethodLogger = new AroundMethodStatLogger(loggerWrapper, methodSignature);
-            aroundMethodLoggers.put(methodSignature.toString(), aroundMethodLogger);
+            aroundMethodLoggers.put(loggerKey, aroundMethodLogger);
         }
         return aroundMethodLogger;
     }

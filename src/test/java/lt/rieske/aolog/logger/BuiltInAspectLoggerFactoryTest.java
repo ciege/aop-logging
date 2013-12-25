@@ -53,11 +53,11 @@ public class BuiltInAspectLoggerFactoryTest {
     }
 
     @Test
-    public void shouldReuseTheSameLoggerForSameMethodOnDifferentInstances() {
+    public void shouldCreateDifferentLoggersForSameMethodOnDifferentInstances() {
         AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
         AroundMethodLogger logger2 = factory.getAroundMethodLogger(methodSignature, mock(Object.class), configuration);
 
-        assertThat(logger1, sameInstance(logger2));
+        assertThat(logger1, not(sameInstance(logger2)));
     }
 
     @Test
