@@ -33,6 +33,14 @@ public class AroundMethodStatLoggerTest {
 
     @Test
     public void shouldLogBeforeMethodMessage() {
+        statLogger.logBefore();
+
+        verify(logger).log(anyString(), same(signature));
+        verifyNoMoreInteractions(logger, signature);
+    }
+
+    @Test
+    public void shouldLogBeforeMethodMessageWithArguments() {
         final String arguments = "anyArguments";
 
         statLogger.logBefore(arguments);

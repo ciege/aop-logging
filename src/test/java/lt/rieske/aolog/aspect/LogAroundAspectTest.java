@@ -42,8 +42,9 @@ public class LogAroundAspectTest {
     @Mock
     private AroundMethodLogger logger;
 
-    private Object[] arguments = new Object[] {};
-    private String argumentsString = Arrays.toString(arguments);
+    private Object[] emptyArray = new Object[] {};
+    private Object[] argumentsArray = new Object[] { "arg1", "arg2" };
+    private String argumentsString = Arrays.toString(argumentsArray);
 
     @InjectMocks
     private LogAroundAspect logAroundAspect;
@@ -53,7 +54,22 @@ public class LogAroundAspectTest {
         when(joinPoint.getSignature()).thenReturn(methodSignature);
         when(joinPoint.getTarget()).thenReturn(target);
         when(loggerFactory.getAroundMethodLogger(methodSignature, target, configuration)).thenReturn(logger);
-        when(joinPoint.getArgs()).thenReturn(arguments);
+        when(joinPoint.getArgs()).thenReturn(emptyArray);
+
+        logAroundAspect.logAround(joinPoint, configuration);
+
+        verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
+        verify(logger).logBefore();
+        verify(logger).logAfter(null);
+        verifyNoMoreInteractions(loggerFactory, logger);
+    }
+
+    @Test
+    public void shouldInvokeLoggerBeforeAndAfterMethodWithArgumentsExecution() throws Throwable {
+        when(joinPoint.getSignature()).thenReturn(methodSignature);
+        when(joinPoint.getTarget()).thenReturn(target);
+        when(loggerFactory.getAroundMethodLogger(methodSignature, target, configuration)).thenReturn(logger);
+        when(joinPoint.getArgs()).thenReturn(argumentsArray);
 
         logAroundAspect.logAround(joinPoint, configuration);
 
@@ -69,12 +85,12 @@ public class LogAroundAspectTest {
         when(joinPoint.getTarget()).thenReturn(target);
         when(loggerFactory.getAroundMethodLogger(methodSignature, target, configuration)).thenReturn(logger);
         when(methodSignature.toString()).thenReturn("void aaa()");
-        when(joinPoint.getArgs()).thenReturn(arguments);
+        when(joinPoint.getArgs()).thenReturn(emptyArray);
 
         logAroundAspect.logAround(joinPoint, configuration);
 
         verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
-        verify(logger).logBefore(argumentsString);
+        verify(logger).logBefore();
         verify(logger).logAfter();
         verifyNoMoreInteractions(loggerFactory, logger);
     }
@@ -86,7 +102,7 @@ public class LogAroundAspectTest {
         when(loggerFactory.getAroundMethodLogger(methodSignature, target, configuration)).thenReturn(logger);
         Throwable runtimeException = new RuntimeException();
         when(joinPoint.proceed()).thenThrow(runtimeException);
-        when(joinPoint.getArgs()).thenReturn(arguments);
+        when(joinPoint.getArgs()).thenReturn(emptyArray);
 
         try {
             logAroundAspect.logAround(joinPoint, configuration);
@@ -94,7 +110,7 @@ public class LogAroundAspectTest {
         } catch (Exception e) {
             assertTrue(e == runtimeException);
             verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
-            verify(logger).logBefore(argumentsString);
+            verify(logger).logBefore();
             verify(logger).logException(same(e));
             verifyNoMoreInteractions(loggerFactory, logger);
         }

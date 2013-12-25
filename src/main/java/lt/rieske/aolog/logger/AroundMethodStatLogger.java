@@ -15,6 +15,11 @@ class AroundMethodStatLogger implements AroundMethodLogger {
     }
 
     @Override
+    public void logBefore() {
+        logger.log("Entering {}", signature);
+    }
+
+    @Override
     public void logBefore(String arguments) {
         logger.log("Entering {} with arguments: {}", signature, arguments);
     }

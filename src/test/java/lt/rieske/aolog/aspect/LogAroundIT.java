@@ -18,9 +18,15 @@ public class LogAroundIT {
     private ServiceFacadeStub targetFacade;
 
     @Test
-    public void shouldInvokeLoggerBeforeAndAfterMethodExecution() throws Throwable {
+    public void shouldInvokeLoggerBeforeAndAfterMethodExecution() {
         targetFacade.methodReturningVoid();
         targetFacade.methodReturningString("testValue");
+    }
+
+    @Test
+    public void shouldInvokeDifferentLoggersForOverloadedMethods() {
+        targetFacade.overloadedMethod();
+        targetFacade.overloadedMethod("arg");
     }
 
 }
