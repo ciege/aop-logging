@@ -1,15 +1,14 @@
 package lt.rieske.aolog.logger;
 
 import org.aspectj.lang.Signature;
-import org.slf4j.Logger;
 
 class AroundMethodStatLogger implements AroundMethodLogger {
 
-    private final Logger logger;
+    private final LoggerWrapper logger;
     private final Signature signature;
     private final String arguments;
 
-    public AroundMethodStatLogger(Logger logger, Signature signature, String arguments) {
+    public AroundMethodStatLogger(LoggerWrapper logger, Signature signature, String arguments) {
         this.logger = logger;
         this.signature = signature;
         this.arguments = arguments;
@@ -17,22 +16,22 @@ class AroundMethodStatLogger implements AroundMethodLogger {
 
     @Override
     public void logBefore() {
-        logger.debug("Entering {} with arguments: {}", signature, arguments);
+        logger.log(LogLevel.DEBUG, "Entering {} with arguments: {}", signature, arguments);
     }
 
     @Override
     public void logAfter() {
-        logger.debug("Leaving {}", signature);
+        logger.log(LogLevel.DEBUG, "Leaving {}", signature);
     }
 
     @Override
     public void logAfter(String returnedString) {
-        logger.debug("Leaving {} with return value: {}", signature, returnedString);
+        logger.log(LogLevel.DEBUG, "Leaving {} with return value: {}", signature, returnedString);
     }
 
     @Override
-    public void logException(Throwable t) {
-        logger.debug("{} threw exception: {}", signature, t.getMessage());
+    public void logException(Exception e) {
+        logger.log(LogLevel.DEBUG, "{} threw exception: {}", signature, e.getMessage());
     }
 
 }

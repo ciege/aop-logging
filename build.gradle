@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'sonar-runner'
-apply plugin: "jacoco"
+apply plugin: 'jacoco'
 
 
 

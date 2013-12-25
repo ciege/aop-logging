@@ -80,11 +80,11 @@ public class LogAroundAspectTest {
         try {
             logAroundAspect.logAround(joinPoint, configuration);
             fail("Exception expected to be rethrown");
-        } catch (Throwable t) {
-            assertTrue(t == runtimeException);
+        } catch (Exception e) {
+            assertTrue(e == runtimeException);
             verify(loggerFactory).getAroundMethodLogger(same(joinPoint), same(target), same(configuration));
             verify(logger).logBefore();
-            verify(logger).logException(same(t));
+            verify(logger).logException(same(e));
             verifyNoMoreInteractions(loggerFactory, logger);
         }
     }

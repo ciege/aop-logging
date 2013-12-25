@@ -8,5 +8,5 @@ public interface AroundMethodLogger {
 
     void logAfter(String returnValueString);
 
-    void logException(Throwable t);
+    void logException(Exception e);
 }
