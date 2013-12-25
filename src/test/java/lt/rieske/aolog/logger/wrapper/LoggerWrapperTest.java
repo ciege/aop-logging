@@ -2,7 +2,6 @@ package lt.rieske.aolog.logger.wrapper;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import lt.rieske.aolog.logger.LogLevel;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

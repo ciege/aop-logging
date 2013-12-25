@@ -17,9 +17,10 @@ public class BuiltInAspectLoggerFactory implements AspectLoggerFactory {
     @Override
     public AroundMethodLogger getAroundMethodLogger(ProceedingJoinPoint joinPoint, Object target, LogAround configuration) {
         Logger logger = LoggerFactory.getLogger(target.toString());
+        LoggerWrapper loggerWrapper = LoggerWrapper.createLoggerWrapper(logger, configuration.logLevel());
         Signature methodSignature = joinPoint.getSignature();
         String arguments = Arrays.toString(joinPoint.getArgs());
-        
-        return new AroundMethodStatLogger(LoggerWrapper.createLoggerWrapper(logger, LogLevel.DEBUG), methodSignature, arguments);
+
+        return new AroundMethodStatLogger(loggerWrapper, methodSignature, arguments);
     }
 }

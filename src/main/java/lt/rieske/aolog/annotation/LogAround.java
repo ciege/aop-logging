@@ -5,7 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import lt.rieske.aolog.logger.wrapper.LogLevel;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface LogAround {
+    LogLevel logLevel() default LogLevel.DEBUG;
 }

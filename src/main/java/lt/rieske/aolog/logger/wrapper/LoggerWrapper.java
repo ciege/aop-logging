@@ -1,7 +1,5 @@
 package lt.rieske.aolog.logger.wrapper;
 
-import lt.rieske.aolog.logger.LogLevel;
-
 import org.slf4j.Logger;
 
 public abstract class LoggerWrapper {
