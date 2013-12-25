@@ -1,11 +1,11 @@
-package lt.rieske.aolog.logger;
+package lt.rieske.aolog.logger.wrapper;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import lt.rieske.aolog.logger.LogLevel;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ public class LoggerWrapperTest {
     @Mock
     private Logger logger;
 
-    @InjectMocks
     private LoggerWrapper wrapper;
 
     private final String FORMAT = "any format";
@@ -25,7 +24,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogTraceMessage() {
-        wrapper.log(LogLevel.TRACE, FORMAT, ARGUMENTS);
+        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.TRACE);
+
+        wrapper.log(FORMAT, ARGUMENTS);
 
         verify(logger).trace(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -33,7 +34,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogDebugMessage() {
-        wrapper.log(LogLevel.DEBUG, FORMAT, ARGUMENTS);
+        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.DEBUG);
+
+        wrapper.log(FORMAT, ARGUMENTS);
 
         verify(logger).debug(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -41,7 +44,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogInfoMessage() {
-        wrapper.log(LogLevel.INFO, FORMAT, ARGUMENTS);
+        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.INFO);
+
+        wrapper.log(FORMAT, ARGUMENTS);
 
         verify(logger).info(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -49,7 +54,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogWarnMessage() {
-        wrapper.log(LogLevel.WARN, FORMAT, ARGUMENTS);
+        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.WARN);
+
+        wrapper.log(FORMAT, ARGUMENTS);
 
         verify(logger).warn(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);
@@ -57,7 +64,9 @@ public class LoggerWrapperTest {
 
     @Test
     public void shouldLogErrorMessage() {
-        wrapper.log(LogLevel.ERROR, FORMAT, ARGUMENTS);
+        wrapper = LoggerWrapper.createLoggerWrapper(logger, LogLevel.ERROR);
+
+        wrapper.log(FORMAT, ARGUMENTS);
 
         verify(logger).error(FORMAT, ARGUMENTS);
         verifyNoMoreInteractions(logger);

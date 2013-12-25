@@ -3,6 +3,7 @@ package lt.rieske.aolog.logger;
 import java.util.Arrays;
 
 import lt.rieske.aolog.annotation.LogAround;
+import lt.rieske.aolog.logger.wrapper.LoggerWrapper;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -19,6 +20,6 @@ public class BuiltInAspectLoggerFactory implements AspectLoggerFactory {
         Signature methodSignature = joinPoint.getSignature();
         String arguments = Arrays.toString(joinPoint.getArgs());
         
-        return new AroundMethodStatLogger(new LoggerWrapper(logger), methodSignature, arguments);
+        return new AroundMethodStatLogger(LoggerWrapper.createLoggerWrapper(logger, LogLevel.DEBUG), methodSignature, arguments);
     }
 }
