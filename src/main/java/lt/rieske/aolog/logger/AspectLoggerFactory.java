@@ -13,13 +13,13 @@ import org.springframework.util.StopWatch;
 
 public abstract class AspectLoggerFactory {
 
-    private enum LoggerType {
+    private static enum LoggerType {
         STAT, PERF
     }
 
-    private static final Map<String, LoggerType> loggerMappings = new HashMap<>();
+    private final Map<String, LoggerType> loggerMappings = new HashMap<>();
 
-    static {
+    public AspectLoggerFactory() {
         loggerMappings.put("stat", LoggerType.STAT);
         loggerMappings.put("perf", LoggerType.PERF);
     }
@@ -29,20 +29,21 @@ public abstract class AspectLoggerFactory {
         Logger logger = LoggerFactory.getLogger(target.toString());
         String loggerTypeString = configuration.value().toLowerCase();
         LoggerType loggerType = loggerMappings.get(loggerTypeString);
-        AroundMethodLogger aroundMethodLogger = null;
         if (loggerType != null) {
-            switch (loggerType) {
-            case PERF:
-                aroundMethodLogger = new AroundMethodPerfLogger(loggerWrapper, logger, methodSignature, new StopWatch());
-                break;
-            case STAT:
-                aroundMethodLogger = new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
-                break;
-            }
+            return getAroundMethodLogger(loggerType, loggerWrapper, logger, methodSignature);
         } else {
-            aroundMethodLogger = getCustomAroundMethodLogger(loggerTypeString, loggerWrapper, logger, methodSignature);
+            return getCustomAroundMethodLogger(loggerTypeString, loggerWrapper, logger, methodSignature);
         }
-        return aroundMethodLogger;
+    }
+
+    private AroundMethodLogger getAroundMethodLogger(LoggerType loggerType, LoggerWrapper loggerWrapper, Logger logger, Signature methodSignature) {
+        switch (loggerType) {
+        case PERF:
+            return new AroundMethodPerfLogger(loggerWrapper, logger, methodSignature, new StopWatch());
+        default:
+        case STAT:
+            return new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
+        }
     }
 
     protected abstract AroundMethodLogger getCustomAroundMethodLogger(String loggerType, LoggerWrapper loggerWrapper, Logger logger, Signature methodSignature);
