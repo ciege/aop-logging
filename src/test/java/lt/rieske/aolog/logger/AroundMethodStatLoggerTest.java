@@ -39,7 +39,7 @@ public class AroundMethodStatLoggerTest {
         statLogger.logBefore();
 
         verify(loggerWrapper).log(same(logger), anyString(), same(signature));
-        verifyNoMoreInteractions(loggerWrapper, signature);
+        verifyNoMoreInteractions(loggerWrapper, logger, signature);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class AroundMethodStatLoggerTest {
         statLogger.logBefore(arguments);
 
         verify(loggerWrapper).log(same(logger), anyString(), same(signature), eq(arguments));
-        verifyNoMoreInteractions(loggerWrapper, signature);
+        verifyNoMoreInteractions(loggerWrapper, logger, signature);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class AroundMethodStatLoggerTest {
         statLogger.logAfter();
 
         verify(loggerWrapper).log(same(logger), anyString(), same(signature));
-        verifyNoMoreInteractions(loggerWrapper, signature);
+        verifyNoMoreInteractions(loggerWrapper, logger, signature);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class AroundMethodStatLoggerTest {
         statLogger.logAfter(returnedValue);
 
         verify(loggerWrapper).log(same(logger), anyString(), same(signature), eq(returnedValue));
-        verifyNoMoreInteractions(loggerWrapper, signature);
+        verifyNoMoreInteractions(loggerWrapper, logger, signature);
     }
 
     @Test
@@ -77,6 +77,6 @@ public class AroundMethodStatLoggerTest {
         statLogger.logException(exception);
 
         verify(loggerWrapper).log(same(logger), anyString(), same(signature), eq(exceptionMessage));
-        verifyNoMoreInteractions(loggerWrapper, signature);
+        verifyNoMoreInteractions(loggerWrapper, logger, signature);
     }
 }

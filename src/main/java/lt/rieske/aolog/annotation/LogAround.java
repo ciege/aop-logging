@@ -10,5 +10,6 @@ import lt.rieske.aolog.logger.wrapper.LogLevel;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface LogAround {
+    String value() default "stat";
     LogLevel logLevel() default LogLevel.DEBUG;
 }

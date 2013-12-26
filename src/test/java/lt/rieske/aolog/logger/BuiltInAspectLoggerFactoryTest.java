@@ -33,6 +33,7 @@ public class BuiltInAspectLoggerFactoryTest {
     @Before
     public void setUp() {
         factory = new BuiltInAspectLoggerFactory();
+        when(configuration.value()).thenReturn("default");
         when(configuration.logLevel()).thenReturn(LogLevel.DEBUG);
         when(methodSignature.toString()).thenReturn("a method signature");
     }
@@ -45,11 +46,11 @@ public class BuiltInAspectLoggerFactoryTest {
     }
 
     @Test
-    public void shouldReuseTheSameLoggerForSameMethodInvocations() {
+    public void shouldCreateDifferentLoggersForSameMethodInvocations() {
         AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
         AroundMethodLogger logger2 = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
-        assertThat(logger1, sameInstance(logger2));
+        assertThat(logger1, not(sameInstance(logger2)));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class BuiltInAspectLoggerFactoryTest {
     public void shouldCreateDifferentLoggersForDifferentMethodInvocations() {
         Signature differentMethodSignature = mock(Signature.class);
         when(differentMethodSignature.toString()).thenReturn("a different method signature");
-        
+
         AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
         AroundMethodLogger logger2 = factory.getAroundMethodLogger(differentMethodSignature, target, configuration);
 

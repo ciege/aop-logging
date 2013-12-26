@@ -1,8 +1,5 @@
 package lt.rieske.aolog.logger;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import lt.rieske.aolog.annotation.LogAround;
 import lt.rieske.aolog.logger.wrapper.LoggerWrapper;
 
@@ -10,27 +7,21 @@ import org.aspectj.lang.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 @Component
 public class BuiltInAspectLoggerFactory implements AspectLoggerFactory {
 
-    private Map<String, AroundMethodLogger> aroundMethodLoggers = new HashMap<>();
-
-    private String getLoggerKey(Signature signature, Object target) {
-        return signature.toString() + target.toString();
-    }
-
     @Override
     public AroundMethodLogger getAroundMethodLogger(Signature methodSignature, Object target, LogAround configuration) {
-        String loggerKey = getLoggerKey(methodSignature, target);
-
-        AroundMethodLogger aroundMethodLogger = aroundMethodLoggers.get(loggerKey);
-        if (aroundMethodLogger == null) {
-            LoggerWrapper loggerWrapper = LoggerWrapper.getLoggerWrapper(configuration.logLevel());
-            Logger logger = LoggerFactory.getLogger(target.toString());
-            aroundMethodLogger = new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
-            aroundMethodLoggers.put(loggerKey, aroundMethodLogger);
+        LoggerWrapper loggerWrapper = LoggerWrapper.getLoggerWrapper(configuration.logLevel());
+        Logger logger = LoggerFactory.getLogger(target.toString());
+        switch (configuration.value()) {
+        case "perf":
+            return new AroundMethodPerfLogger(loggerWrapper, logger, methodSignature, new StopWatch());
+        case "stat":
+        default:
+            return new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
         }
-        return aroundMethodLogger;
     }
 }
