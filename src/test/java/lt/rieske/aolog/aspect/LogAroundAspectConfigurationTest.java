@@ -1,7 +1,9 @@
 package lt.rieske.aolog.aspect;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import lt.rieske.aolog.annotation.LogAround;
-import lt.rieske.aolog.aspect.LogAroundAspect;
 import lt.rieske.aolog.stubs.ServiceFacadeStub;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
@@ -32,7 +33,7 @@ public class LogAroundAspectConfigurationTest {
     public void shouldInvokePerformanceLogAspect() throws Throwable {
         targetFacade.methodReturningVoid();
 
-        Mockito.verify(logAroundAspect).logAround(Mockito.any(ProceedingJoinPoint.class), Mockito.any(LogAround.class));
-        Mockito.verifyNoMoreInteractions(logAroundAspect);
+        verify(logAroundAspect).logAround(any(ProceedingJoinPoint.class), any(LogAround.class));
+        verifyNoMoreInteractions(logAroundAspect);
     }
 }
