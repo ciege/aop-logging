@@ -56,6 +56,13 @@ public class BuiltInAspectLoggerFactoryTest {
         assertThat(logger, instanceOf(AroundMethodPerfLogger.class));
     }
 
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowNPEForIllegalNullValueInConfiguration() {
+        when(configuration.value()).thenReturn(null);
+
+        factory.getAroundMethodLogger(methodSignature, target, configuration);
+    }
+
     @Test
     public void shouldCreateDifferentLoggersForSameMethodInvocations() {
         AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
