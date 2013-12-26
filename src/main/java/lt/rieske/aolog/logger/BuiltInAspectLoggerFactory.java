@@ -4,9 +4,7 @@ import lt.rieske.aolog.logger.wrapper.LoggerWrapper;
 
 import org.aspectj.lang.Signature;
 import org.slf4j.Logger;
-import org.springframework.stereotype.Component;
 
-@Component
 public class BuiltInAspectLoggerFactory extends AspectLoggerFactory {
 
     @Override
