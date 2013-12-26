@@ -13,7 +13,7 @@ public class ServiceFacadeStub {
         System.out.println("method returning void");
     }
 
-    @LogAround
+    @LogAround("perf")
     public String methodReturningString(String value) {
         System.out.println("method returning: " + value);
         return value;

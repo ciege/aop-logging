@@ -1,7 +1,7 @@
 package lt.rieske.aolog.logger;
 
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -40,9 +40,20 @@ public class BuiltInAspectLoggerFactoryTest {
 
     @Test
     public void shouldCreateAroundMethodStatLogger() {
+        when(configuration.value()).thenReturn("stat");
+
         AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
-        assertThat(logger, not(nullValue()));
+        assertThat(logger, instanceOf(AroundMethodStatLogger.class));
+    }
+
+    @Test
+    public void shouldCreateAroundMethodPerfLogger() {
+        when(configuration.value()).thenReturn("perf");
+
+        AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
+
+        assertThat(logger, instanceOf(AroundMethodPerfLogger.class));
     }
 
     @Test
