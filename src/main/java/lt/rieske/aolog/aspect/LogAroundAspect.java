@@ -32,22 +32,30 @@ public class LogAroundAspect {
         Signature methodSignature = joinPoint.getSignature();
         AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(methodSignature, joinPoint.getTarget(), configuration);
 
+        logBefore(logger, joinPoint);
+        try {
+            Object returnValue = joinPoint.proceed();
+            logAfter(logger, methodSignature, returnValue);
+        } catch (Exception e) {
+            logger.logException(e);
+            throw e;
+        }
+    }
+
+    private void logBefore(AroundMethodLogger logger, ProceedingJoinPoint joinPoint) {
         Object[] arguments = joinPoint.getArgs();
         if (arguments.length == 0) {
             logger.logBefore();
         } else {
             logger.logBefore(Arrays.toString(arguments));
         }
-        try {
-            Object returnValue = joinPoint.proceed();
-            if (methodSignature.toString().startsWith(VOID_RETURN)) {
-                logger.logAfter();
-            } else {
-                logger.logAfter(returnValue == null ? null : returnValue.toString());
-            }
-        } catch (Exception e) {
-            logger.logException(e);
-            throw e;
+    }
+    
+    private void logAfter(AroundMethodLogger logger, Signature methodSignature, Object returnValue) {
+        if (methodSignature.toString().startsWith(VOID_RETURN)) {
+            logger.logAfter();
+        } else {
+            logger.logAfter(returnValue == null ? null : returnValue.toString());
         }
     }
 }
