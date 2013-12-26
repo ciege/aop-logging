@@ -56,6 +56,15 @@ public class BuiltInAspectLoggerFactoryTest {
         assertThat(logger, instanceOf(AroundMethodPerfLogger.class));
     }
 
+    @Test
+    public void shouldCreateAroundMethodStatLoggerWhenTypeIsNotRecognized() {
+        when(configuration.value()).thenReturn("invalidLoggerType");
+
+        AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
+
+        assertThat(logger, instanceOf(AroundMethodStatLogger.class));
+    }
+
     @Test(expected = NullPointerException.class)
     public void shouldThrowNPEForIllegalNullValueInConfiguration() {
         when(configuration.value()).thenReturn(null);
