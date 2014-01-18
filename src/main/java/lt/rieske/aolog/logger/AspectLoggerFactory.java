@@ -40,8 +40,8 @@ public abstract class AspectLoggerFactory {
         switch (loggerType) {
         case PERF:
             return new AroundMethodPerfLogger(loggerWrapper, logger, methodSignature, new StopWatch());
-        default:
         case STAT:
+        default:
             return new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
         }
     }
