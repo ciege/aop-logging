@@ -3,6 +3,7 @@ package lt.rieske.aolog.aspect;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -92,6 +93,24 @@ public class LogAroundAspectTest {
         verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
         verify(logger).logBefore();
         verify(logger).logAfter();
+        verifyNoMoreInteractions(loggerFactory, logger);
+    }
+
+    @Test
+    public void shouldInvokeLoggerBeforeAndAfterMethodExecutionForValueReturningMethod() throws Throwable {
+        final Object returnValue = "string value";
+
+        when(joinPoint.getSignature()).thenReturn(methodSignature);
+        when(joinPoint.getTarget()).thenReturn(target);
+        when(loggerFactory.getAroundMethodLogger(methodSignature, target, configuration)).thenReturn(logger);
+        when(joinPoint.getArgs()).thenReturn(emptyArray);
+        when(joinPoint.proceed()).thenReturn(returnValue);
+
+        logAroundAspect.logAround(joinPoint, configuration);
+
+        verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
+        verify(logger).logBefore();
+        verify(logger).logAfter(returnValue.toString());
         verifyNoMoreInteractions(loggerFactory, logger);
     }
 
