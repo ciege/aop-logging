@@ -50,7 +50,7 @@ public class LogAroundAspect {
             logger.logBefore(Arrays.toString(arguments));
         }
     }
-    
+
     private void logAfter(AroundMethodLogger logger, Signature methodSignature, Object returnValue) {
         if (methodSignature.toString().startsWith(VOID_RETURN)) {
             logger.logAfter();

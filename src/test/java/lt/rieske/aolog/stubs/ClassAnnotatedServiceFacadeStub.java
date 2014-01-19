@@ -9,34 +9,34 @@ import org.springframework.stereotype.Component;
 @LogAround(value = "perf", logLevel = LogLevel.INFO)
 public class ClassAnnotatedServiceFacadeStub {
 
-	public void methodReturningVoid() {
-		System.out.println("method returning void");
-	}
+    public void methodReturningVoid() {
+        System.out.println("method returning void");
+    }
 
-	public String methodReturningString(String value) {
-		System.out.println("method returning: " + value);
-		return value;
-	}
+    public String methodReturningString(String value) {
+        System.out.println("method returning: " + value);
+        return value;
+    }
 
-	public void overloadedMethod() {
-		System.out.println("overloadedMethod no args");
-	}
+    public void overloadedMethod() {
+        System.out.println("overloadedMethod no args");
+    }
 
-	public void overloadedMethod(String arg) {
-		System.out.println("overloadedMethod with args");
-	}
+    public void overloadedMethod(String arg) {
+        System.out.println("overloadedMethod with args");
+    }
 
-	public void methodCallingProtectedAndPrivate() {
-		System.out.println("methodCallingProtectedAndPrivate");
-		protectedMethod();
-		privateMethod();
-	}
+    public void methodCallingProtectedAndPrivate() {
+        System.out.println("methodCallingProtectedAndPrivate");
+        protectedMethod();
+        privateMethod();
+    }
 
-	protected void protectedMethod() {
-		System.out.println("protected method should not have logging around it");
-	}
+    protected void protectedMethod() {
+        System.out.println("protected method should not have logging around it");
+    }
 
-	private void privateMethod() {
-		System.out.println("private method should not have logging around it");
-	}
+    private void privateMethod() {
+        System.out.println("private method should not have logging around it");
+    }
 }

@@ -14,17 +14,11 @@ public class MethodAnnotatedServiceFacadeStub {
     }
 
     @LogAround("perf")
-    public String methodReturningString(String value) {
-        System.out.println("method returning: " + value);
-        return value;
-    }
-
-    @LogAround
     public void overloadedMethod() {
         System.out.println("overloadedMethod no args");
     }
 
-    @LogAround(logLevel = LogLevel.INFO)
+    @LogAround(value = "perf", logLevel = LogLevel.INFO)
     public void overloadedMethod(String arg) {
         System.out.println("overloadedMethod with args");
     }

@@ -22,92 +22,92 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class BuiltInAspectLoggerFactoryTest {
 
-	private static final String METHOD_STRING = "methodString";
+    private static final String METHOD_STRING = "methodString";
 
-	@Mock
-	private Signature methodSignature;
+    @Mock
+    private Signature methodSignature;
 
-	@Mock
-	private Object target;
+    @Mock
+    private Object target;
 
-	@Mock
-	private LogAround configuration;
+    @Mock
+    private LogAround configuration;
 
-	@Mock
-	private LoggerFactoryWrapper loggerFactory;
+    @Mock
+    private LoggerFactoryWrapper loggerFactory;
 
-	@InjectMocks
-	private BuiltInAspectLoggerFactory factory;
+    @InjectMocks
+    private BuiltInAspectLoggerFactory factory;
 
-	@Before
-	public void setUp() {
-		when(configuration.value()).thenReturn("default");
-		when(configuration.logLevel()).thenReturn(LogLevel.DEBUG);
-		when(methodSignature.toString()).thenReturn("a method signature");
-		when(target.toString()).thenReturn(METHOD_STRING);
-	}
+    @Before
+    public void setUp() {
+        when(configuration.value()).thenReturn("default");
+        when(configuration.logLevel()).thenReturn(LogLevel.DEBUG);
+        when(methodSignature.toString()).thenReturn("a method signature");
+        when(target.toString()).thenReturn(METHOD_STRING);
+    }
 
-	@Test
-	public void shouldCreateAroundMethodStatLogger() {
-		when(configuration.value()).thenReturn("stat");
+    @Test
+    public void shouldCreateAroundMethodStatLogger() {
+        when(configuration.value()).thenReturn("stat");
 
-		AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
+        AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
-		verify(loggerFactory).getLogger(eq(METHOD_STRING));
-		assertThat(logger, instanceOf(AroundMethodStatLogger.class));
-	}
+        verify(loggerFactory).getLogger(eq(METHOD_STRING));
+        assertThat(logger, instanceOf(AroundMethodStatLogger.class));
+    }
 
-	@Test
-	public void shouldCreateAroundMethodPerfLogger() {
-		when(configuration.value()).thenReturn("perf");
+    @Test
+    public void shouldCreateAroundMethodPerfLogger() {
+        when(configuration.value()).thenReturn("perf");
 
-		AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
+        AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
-		verify(loggerFactory).getLogger(eq(METHOD_STRING));
-		assertThat(logger, instanceOf(AroundMethodPerfLogger.class));
-	}
+        verify(loggerFactory).getLogger(eq(METHOD_STRING));
+        assertThat(logger, instanceOf(AroundMethodPerfLogger.class));
+    }
 
-	@Test
-	public void shouldCreateAroundMethodStatLoggerWhenTypeIsNotRecognized() {
-		when(configuration.value()).thenReturn("invalidLoggerType");
+    @Test
+    public void shouldCreateAroundMethodStatLoggerWhenTypeIsNotRecognized() {
+        when(configuration.value()).thenReturn("invalidLoggerType");
 
-		AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
+        AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
-		verify(loggerFactory).getLogger(eq(METHOD_STRING));
-		assertThat(logger, instanceOf(AroundMethodStatLogger.class));
-	}
+        verify(loggerFactory).getLogger(eq(METHOD_STRING));
+        assertThat(logger, instanceOf(AroundMethodStatLogger.class));
+    }
 
-	@Test(expected = NullPointerException.class)
-	public void shouldThrowNPEForIllegalNullValueInConfiguration() {
-		when(configuration.value()).thenReturn(null);
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowNPEForIllegalNullValueInConfiguration() {
+        when(configuration.value()).thenReturn(null);
 
-		factory.getAroundMethodLogger(methodSignature, target, configuration);
-	}
+        factory.getAroundMethodLogger(methodSignature, target, configuration);
+    }
 
-	@Test
-	public void shouldCreateDifferentLoggersForSameMethodInvocations() {
-		AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
-		AroundMethodLogger logger2 = factory.getAroundMethodLogger(methodSignature, target, configuration);
+    @Test
+    public void shouldCreateDifferentLoggersForSameMethodInvocations() {
+        AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
+        AroundMethodLogger logger2 = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
-		assertThat(logger1, not(sameInstance(logger2)));
-	}
+        assertThat(logger1, not(sameInstance(logger2)));
+    }
 
-	@Test
-	public void shouldCreateDifferentLoggersForSameMethodOnDifferentInstances() {
-		AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
-		AroundMethodLogger logger2 = factory.getAroundMethodLogger(methodSignature, mock(Object.class), configuration);
+    @Test
+    public void shouldCreateDifferentLoggersForSameMethodOnDifferentInstances() {
+        AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
+        AroundMethodLogger logger2 = factory.getAroundMethodLogger(methodSignature, mock(Object.class), configuration);
 
-		assertThat(logger1, not(sameInstance(logger2)));
-	}
+        assertThat(logger1, not(sameInstance(logger2)));
+    }
 
-	@Test
-	public void shouldCreateDifferentLoggersForDifferentMethodInvocations() {
-		Signature differentMethodSignature = mock(Signature.class);
-		when(differentMethodSignature.toString()).thenReturn("a different method signature");
+    @Test
+    public void shouldCreateDifferentLoggersForDifferentMethodInvocations() {
+        Signature differentMethodSignature = mock(Signature.class);
+        when(differentMethodSignature.toString()).thenReturn("a different method signature");
 
-		AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
-		AroundMethodLogger logger2 = factory.getAroundMethodLogger(differentMethodSignature, target, configuration);
+        AroundMethodLogger logger1 = factory.getAroundMethodLogger(methodSignature, target, configuration);
+        AroundMethodLogger logger2 = factory.getAroundMethodLogger(differentMethodSignature, target, configuration);
 
-		assertThat(logger1, not(sameInstance(logger2)));
-	}
+        assertThat(logger1, not(sameInstance(logger2)));
+    }
 }

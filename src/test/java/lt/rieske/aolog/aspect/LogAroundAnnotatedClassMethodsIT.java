@@ -14,23 +14,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = { AspectOrientedLoggingConfiguration.class })
 public class LogAroundAnnotatedClassMethodsIT {
 
-	@Inject
-	private ClassAnnotatedServiceFacadeStub classAnnotatedFacade;
+    @Inject
+    private ClassAnnotatedServiceFacadeStub classAnnotatedFacade;
 
-	@Test
-	public void shouldInvokeLoggerBeforeAndAfterMethodExecution() {
-		classAnnotatedFacade.methodReturningVoid();
-		classAnnotatedFacade.methodReturningString("testValue");
-	}
+    @Test
+    public void shouldInvokeLoggerBeforeAndAfterMethodExecution() {
+        classAnnotatedFacade.methodReturningVoid();
+        classAnnotatedFacade.methodReturningString("testValue");
+    }
 
-	@Test
-	public void shouldInvokeDifferentLoggersForOverloadedMethods() {
-		classAnnotatedFacade.overloadedMethod();
-		classAnnotatedFacade.overloadedMethod("arg");
-	}
+    @Test
+    public void shouldInvokeDifferentLoggersForOverloadedMethods() {
+        classAnnotatedFacade.overloadedMethod();
+        classAnnotatedFacade.overloadedMethod("arg");
+    }
 
-	@Test
-	public void shouldNotLogAroundPrivateAndProtectedMethods() {
-		classAnnotatedFacade.methodCallingProtectedAndPrivate();
-	}
+    @Test
+    public void shouldNotLogAroundPrivateAndProtectedMethods() {
+        classAnnotatedFacade.methodCallingProtectedAndPrivate();
+    }
 }

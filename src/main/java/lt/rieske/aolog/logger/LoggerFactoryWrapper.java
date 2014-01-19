@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggerFactoryWrapper {
 
-	public Logger getLogger(String loggerName) {
-		return LoggerFactory.getLogger(loggerName);
-	}
+    public Logger getLogger(String loggerName) {
+        return LoggerFactory.getLogger(loggerName);
+    }
 }
