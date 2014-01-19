@@ -12,7 +12,6 @@ class AroundMethodStatLogger extends AroundMethodLoggerBase {
     public AroundMethodStatLogger(LoggerWrapper loggerWrapper, Logger logger, Signature signature) {
         super(loggerWrapper, logger);
         this.signature = signature;
-
     }
 
     @Override
