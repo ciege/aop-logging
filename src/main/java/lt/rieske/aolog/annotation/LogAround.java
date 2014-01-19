@@ -8,8 +8,9 @@ import java.lang.annotation.Target;
 import lt.rieske.aolog.logger.wrapper.LogLevel;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ ElementType.TYPE, ElementType.METHOD })
 public @interface LogAround {
-    String value() default "stat";
-    LogLevel logLevel() default LogLevel.DEBUG;
+	String value() default "stat";
+
+	LogLevel logLevel() default LogLevel.DEBUG;
 }
