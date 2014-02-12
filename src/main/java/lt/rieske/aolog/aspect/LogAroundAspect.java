@@ -2,8 +2,6 @@ package lt.rieske.aolog.aspect;
 
 import java.util.Arrays;
 
-import javax.inject.Inject;
-
 import lt.rieske.aolog.annotation.LogAround;
 import lt.rieske.aolog.logger.AroundMethodLogger;
 import lt.rieske.aolog.logger.AspectLoggerFactory;
@@ -12,20 +10,17 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
 public class LogAroundAspect {
 
-    private final AspectLoggerFactory loggerFactory;
+	@Autowired
+    private AspectLoggerFactory loggerFactory;
 
     private static final String VOID_RETURN = "void ";
-
-    @Inject
-    public LogAroundAspect(final AspectLoggerFactory loggerFactory) {
-        this.loggerFactory = loggerFactory;
-    }
 
     @Around("execution(* *(..)) && @annotation(configuration)")
     public void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
