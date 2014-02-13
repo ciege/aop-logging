@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import javax.annotation.Resource;
-import javax.inject.Inject;
 
 import lt.rieske.aolog.config.AspectOrientedLoggingConfiguration;
 import lt.rieske.aolog.logger.AspectLoggerFactory;
@@ -23,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -40,7 +40,7 @@ public class LogAroundAnnotatedMethodsIT {
     @InjectMocks
     private AspectLoggerFactory aspectLoggerFactory;
 
-    @Inject
+    @Autowired
     private MethodAnnotatedServiceFacadeStub methodAnnotatedFacade;
 
     @Before
