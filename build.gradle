@@ -37,6 +37,7 @@ jacocoTestReport {
 
 sonarRunner {
     sonarProperties {
+		property "sonar.host.url", "http://localhost:9000/sonar"
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.cobertura.reportPath", file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
     }
