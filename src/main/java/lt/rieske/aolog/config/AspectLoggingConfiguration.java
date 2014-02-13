@@ -11,7 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @Configuration
 @ComponentScan("lt.rieske.aolog")
 @EnableAspectJAutoProxy
-public class AspectOrientedLoggingConfiguration {
+public class AspectLoggingConfiguration {
 
     @Bean
     public AspectLoggerFactory aspectLoggerFactory() {

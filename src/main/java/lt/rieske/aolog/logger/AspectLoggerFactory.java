@@ -17,13 +17,13 @@ public abstract class AspectLoggerFactory {
 	private LoggerFactoryWrapper loggerFactory;
 
 	private static enum LoggerType {
-		STAT, PERF
+		TRACE, PERF
 	}
 
 	private final Map<String, LoggerType> loggerMappings = new HashMap<>();
 
 	public AspectLoggerFactory() {
-		loggerMappings.put("stat", LoggerType.STAT);
+		loggerMappings.put("trace", LoggerType.TRACE);
 		loggerMappings.put("perf", LoggerType.PERF);
 	}
 
@@ -44,9 +44,9 @@ public abstract class AspectLoggerFactory {
 		switch (loggerType) {
 		case PERF:
 			return new AroundMethodPerfLogger(loggerWrapper, logger, methodSignature, new StopWatch());
-		case STAT:
+		case TRACE:
 		default:
-			return new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
+			return new AroundMethodTraceLogger(loggerWrapper, logger, methodSignature);
 		}
 	}
 

@@ -5,11 +5,11 @@ import lt.rieske.aolog.logger.wrapper.LoggerWrapper;
 import org.aspectj.lang.Signature;
 import org.slf4j.Logger;
 
-class AroundMethodStatLogger extends AroundMethodLoggerBase {
+class AroundMethodTraceLogger extends AroundMethodLoggerBase {
 
     private Signature signature;
 
-    public AroundMethodStatLogger(LoggerWrapper loggerWrapper, Logger logger, Signature signature) {
+    public AroundMethodTraceLogger(LoggerWrapper loggerWrapper, Logger logger, Signature signature) {
         super(loggerWrapper, logger);
         this.signature = signature;
     }

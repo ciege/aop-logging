@@ -54,7 +54,7 @@ public class BuiltInAspectLoggerFactoryTest {
         AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
         verify(loggerFactory).getLogger(eq(METHOD_STRING));
-        assertThat(logger, instanceOf(AroundMethodStatLogger.class));
+        assertThat(logger, instanceOf(AroundMethodTraceLogger.class));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class BuiltInAspectLoggerFactoryTest {
         AroundMethodLogger logger = factory.getAroundMethodLogger(methodSignature, target, configuration);
 
         verify(loggerFactory).getLogger(eq(METHOD_STRING));
-        assertThat(logger, instanceOf(AroundMethodStatLogger.class));
+        assertThat(logger, instanceOf(AroundMethodTraceLogger.class));
     }
 
     @Test(expected = NullPointerException.class)

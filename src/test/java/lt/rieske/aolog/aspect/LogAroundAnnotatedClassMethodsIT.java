@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import javax.annotation.Resource;
 
-import lt.rieske.aolog.config.AspectOrientedLoggingConfiguration;
+import lt.rieske.aolog.config.AspectLoggingConfiguration;
 import lt.rieske.aolog.logger.AspectLoggerFactory;
 import lt.rieske.aolog.logger.LoggerFactoryWrapper;
 import lt.rieske.aolog.stubs.ClassAnnotatedServiceFacadeStub;
@@ -22,7 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { AspectOrientedLoggingConfiguration.class })
+@ContextConfiguration(classes = { AspectLoggingConfiguration.class })
 public class LogAroundAnnotatedClassMethodsIT {
 
 	@Mock

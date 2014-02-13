@@ -9,6 +9,6 @@ public class BuiltInAspectLoggerFactory extends AspectLoggerFactory {
 
     @Override
     protected AroundMethodLogger getCustomAroundMethodLogger(String loggerType, LoggerWrapper loggerWrapper, Logger logger, Signature methodSignature) {
-        return new AroundMethodStatLogger(loggerWrapper, logger, methodSignature);
+        return new AroundMethodTraceLogger(loggerWrapper, logger, methodSignature);
     }
 }

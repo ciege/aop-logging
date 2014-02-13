@@ -18,7 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AroundMethodStatLoggerTest {
+public class AroundMethodTraceLoggerTest {
 
     @Mock
     private LoggerWrapper loggerWrapper;
@@ -27,11 +27,11 @@ public class AroundMethodStatLoggerTest {
     @Mock
     private Signature signature;
 
-    private AroundMethodStatLogger statLogger;
+    private AroundMethodTraceLogger statLogger;
 
     @Before
     public void setUp() {
-        statLogger = new AroundMethodStatLogger(loggerWrapper, logger, signature);
+        statLogger = new AroundMethodTraceLogger(loggerWrapper, logger, signature);
     }
 
     @Test
