@@ -39,17 +39,17 @@ public abstract class AspectLoggerFactory {
 		}
 	}
 
-	private AroundMethodLogger getAroundMethodLogger(LoggerType loggerType, LoggerWrapper loggerWrapper, Logger logger,
-			Signature methodSignature) {
-		switch (loggerType) {
-		case PERF:
-			return new AroundMethodPerfLogger(loggerWrapper, logger, methodSignature, new StopWatch());
-		case TRACE:
-		default:
-			return new AroundMethodTraceLogger(loggerWrapper, logger, methodSignature);
-		}
-	}
+    private AroundMethodLogger getAroundMethodLogger(LoggerType loggerType, LoggerWrapper loggerWrapper, Logger logger,
+            Signature methodSignature) {
+        switch (loggerType) {
+        case PERF:
+            return new AroundMethodPerfLogger(loggerWrapper, logger, methodSignature, new StopWatch());
+        case TRACE:
+        default:
+            return new AroundMethodTraceLogger(loggerWrapper, logger, methodSignature);
+        }
+    }
 
-	protected abstract AroundMethodLogger getCustomAroundMethodLogger(String loggerType, LoggerWrapper loggerWrapper,
+    protected abstract AroundMethodLogger getCustomAroundMethodLogger(String loggerType, LoggerWrapper loggerWrapper,
 			Logger logger, Signature methodSignature);
 }
