@@ -30,10 +30,10 @@ public class LogAroundAspectConfigurationTest {
     }
 
     @Test
-    public void shouldInvokePerformanceLogAspect() throws Throwable {
+    public void shouldInvokeLogAroundAspect() throws Throwable {
         targetFacade.methodReturningVoid();
 
-        verify(logAroundAspect).logAround(any(ProceedingJoinPoint.class), any(LogAround.class));
+        verify(logAroundAspect).logAroundAnnotatedMethods(any(ProceedingJoinPoint.class), any(LogAround.class));
         verifyNoMoreInteractions(logAroundAspect);
     }
 }

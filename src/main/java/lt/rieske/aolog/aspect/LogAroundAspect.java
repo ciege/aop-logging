@@ -18,39 +18,49 @@ import org.springframework.stereotype.Component;
 public class LogAroundAspect {
 
 	@Autowired
-    private AspectLoggerFactory loggerFactory;
+	private AspectLoggerFactory loggerFactory;
 
-    private static final String VOID_RETURN = "void ";
+	private static final String VOID_RETURN = "void ";
 
-    @Around("execution(* *(..)) && @annotation(configuration)")
-    public void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
-        Signature methodSignature = joinPoint.getSignature();
-        AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(methodSignature, joinPoint.getTarget(), configuration);
+	@Around("execution(public * *(..)) && @within(configuration)")
+	public void logAroundAnnotatedClassPublicMethods(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
+		logAround(joinPoint, configuration);
+	}
 
-        logBefore(logger, joinPoint);
-        try {
-            Object returnValue = joinPoint.proceed();
-            logAfter(logger, methodSignature, returnValue);
-        } catch (Exception e) {
-            logger.logException(e);
-            throw e;
-        }
-    }
+	@Around("execution(* *(..)) && @annotation(configuration)")
+	public void logAroundAnnotatedMethods(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
+		logAround(joinPoint, configuration);
+	}
 
-    private void logBefore(AroundMethodLogger logger, ProceedingJoinPoint joinPoint) {
-        Object[] arguments = joinPoint.getArgs();
-        if (arguments.length == 0) {
-            logger.logBefore();
-        } else {
-            logger.logBefore(Arrays.toString(arguments));
-        }
-    }
+	private void logAround(ProceedingJoinPoint joinPoint, LogAround configuration) throws Throwable {
+		Signature methodSignature = joinPoint.getSignature();
+		AroundMethodLogger logger = loggerFactory.getAroundMethodLogger(methodSignature, joinPoint.getTarget(),
+				configuration);
 
-    private void logAfter(AroundMethodLogger logger, Signature methodSignature, Object returnValue) {
-        if (methodSignature.toString().startsWith(VOID_RETURN)) {
-            logger.logAfter();
-        } else {
-            logger.logAfter(returnValue == null ? null : returnValue.toString());
-        }
-    }
+		logBefore(logger, joinPoint);
+		try {
+			Object returnValue = joinPoint.proceed();
+			logAfter(logger, methodSignature, returnValue);
+		} catch (Exception e) {
+			logger.logException(e);
+			throw e;
+		}
+	}
+
+	private void logBefore(AroundMethodLogger logger, ProceedingJoinPoint joinPoint) {
+		Object[] arguments = joinPoint.getArgs();
+		if (arguments.length == 0) {
+			logger.logBefore();
+		} else {
+			logger.logBefore(Arrays.toString(arguments));
+		}
+	}
+
+	private void logAfter(AroundMethodLogger logger, Signature methodSignature, Object returnValue) {
+		if (methodSignature.toString().startsWith(VOID_RETURN)) {
+			logger.logAfter();
+		} else {
+			logger.logAfter(String.valueOf(returnValue));
+		}
+	}
 }

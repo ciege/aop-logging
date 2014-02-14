@@ -1,10 +1,11 @@
 package lt.rieske.aolog.aspect;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-
-import javax.annotation.Resource;
-
 import lt.rieske.aolog.config.AspectLoggingConfiguration;
 import lt.rieske.aolog.logger.AspectLoggerFactory;
 import lt.rieske.aolog.logger.LoggerFactoryWrapper;
@@ -31,7 +32,7 @@ public class LogAroundAnnotatedClassMethodsIT {
 	@Mock
 	private LoggerFactoryWrapper loggerFactory;
 
-	@Resource
+	@Autowired
 	@InjectMocks
 	private AspectLoggerFactory aspectLoggerFactory;
 
@@ -47,7 +48,8 @@ public class LogAroundAnnotatedClassMethodsIT {
 	@Test
 	public void shouldInvokeLoggerBeforeAndAfterMethodExecution() {
 		classAnnotatedFacade.methodReturningVoid();
-		classAnnotatedFacade.methodReturningString("testValue");
+		verify(logger, times(2)).info(anyString(), any(Object[].class));
+        verifyNoMoreInteractions(logger);
 	}
 
 	@Test

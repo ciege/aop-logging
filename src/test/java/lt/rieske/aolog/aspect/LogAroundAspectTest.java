@@ -56,11 +56,11 @@ public class LogAroundAspectTest {
         when(loggerFactory.getAroundMethodLogger(methodSignature, target, configuration)).thenReturn(logger);
         when(joinPoint.getArgs()).thenReturn(emptyArray);
 
-        logAroundAspect.logAround(joinPoint, configuration);
+        logAroundAspect.logAroundAnnotatedMethods(joinPoint, configuration);
 
         verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
         verify(logger).logBefore();
-        verify(logger).logAfter(null);
+        verify(logger).logAfter("null");
         verifyNoMoreInteractions(loggerFactory, logger);
     }
 
@@ -71,11 +71,11 @@ public class LogAroundAspectTest {
         when(loggerFactory.getAroundMethodLogger(methodSignature, target, configuration)).thenReturn(logger);
         when(joinPoint.getArgs()).thenReturn(argumentsArray);
 
-        logAroundAspect.logAround(joinPoint, configuration);
+        logAroundAspect.logAroundAnnotatedMethods(joinPoint, configuration);
 
         verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
         verify(logger).logBefore(argumentsString);
-        verify(logger).logAfter(null);
+        verify(logger).logAfter("null");
         verifyNoMoreInteractions(loggerFactory, logger);
     }
 
@@ -87,7 +87,7 @@ public class LogAroundAspectTest {
         when(methodSignature.toString()).thenReturn("void aaa()");
         when(joinPoint.getArgs()).thenReturn(emptyArray);
 
-        logAroundAspect.logAround(joinPoint, configuration);
+        logAroundAspect.logAroundAnnotatedMethods(joinPoint, configuration);
 
         verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
         verify(logger).logBefore();
@@ -105,7 +105,7 @@ public class LogAroundAspectTest {
         when(joinPoint.getArgs()).thenReturn(emptyArray);
         when(joinPoint.proceed()).thenReturn(returnValue);
 
-        logAroundAspect.logAround(joinPoint, configuration);
+        logAroundAspect.logAroundAnnotatedMethods(joinPoint, configuration);
 
         verify(loggerFactory).getAroundMethodLogger(same(methodSignature), same(target), same(configuration));
         verify(logger).logBefore();
@@ -123,7 +123,7 @@ public class LogAroundAspectTest {
         when(joinPoint.getArgs()).thenReturn(emptyArray);
 
         try {
-            logAroundAspect.logAround(joinPoint, configuration);
+            logAroundAspect.logAroundAnnotatedMethods(joinPoint, configuration);
             fail("Exception expected to be rethrown");
         } catch (Exception e) {
             assertTrue(e == runtimeException);

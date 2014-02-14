@@ -6,7 +6,7 @@ import lt.rieske.aolog.logger.wrapper.LogLevel;
 import org.springframework.stereotype.Component;
 
 @Component
-@LogAround(value = "perf", logLevel = LogLevel.INFO)
+@LogAround(logLevel = LogLevel.INFO)
 public class ClassAnnotatedServiceFacadeStub {
 
     public void methodReturningVoid() {
