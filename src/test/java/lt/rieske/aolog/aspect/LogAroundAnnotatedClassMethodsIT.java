@@ -2,6 +2,7 @@ package lt.rieske.aolog.aspect;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -55,11 +56,18 @@ public class LogAroundAnnotatedClassMethodsIT {
 	@Test
 	public void shouldInvokeDifferentLoggersForOverloadedMethods() {
 		classAnnotatedFacade.overloadedMethod();
+        verify(logger, times(2)).info(anyString(), argThat(new AnyVarargMatcher()));
+        verifyNoMoreInteractions(logger);
+
 		classAnnotatedFacade.overloadedMethod("arg");
+		verify(logger, times(4)).info(anyString(), argThat(new AnyVarargMatcher()));
+        verifyNoMoreInteractions(logger);
 	}
 
 	@Test
 	public void shouldNotLogAroundPrivateAndProtectedMethods() {
 		classAnnotatedFacade.methodCallingProtectedAndPrivate();
+		verify(logger, times(2)).info(anyString(), argThat(new AnyVarargMatcher()));
+        verifyNoMoreInteractions(logger);
 	}
 }
