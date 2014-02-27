@@ -17,4 +17,5 @@ public class AspectLoggingConfiguration {
     public AspectLoggerFactory aspectLoggerFactory() {
         return new BuiltInAspectLoggerFactory();
     }
+
 }
